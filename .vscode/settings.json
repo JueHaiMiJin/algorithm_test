@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "array": "cpp",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "string": "cpp",
+        "vector": "cpp",
+        "fstream": "cpp",
+        "functional": "cpp",
+        "istream": "cpp",
+        "sstream": "cpp",
+        "type_traits": "cpp",
+        "tuple": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}

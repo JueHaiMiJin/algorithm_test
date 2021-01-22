@@ -1,0 +1,31 @@
+工厂模式 Factory：
+在平时编程中，构建对象最常用的方式是 new 一个对象。乍一看这种做法没什么不好，而实际上这也属于一种硬编码。
+每 new 一个对象，相当于调用者多知道了一个类，增加了类与类之间的联系，不利于程序的松耦合。其实构建过程可以被封装起来，
+工厂模式便是用于封装对象的设计模式。
+
+简单工厂模式
+举个例子，直接 new 对象的方式相当于当我们需要一个苹果时，我们需要知道苹果的构造方法，需要一个梨子时，
+需要知道梨子的构造方法。更好的实现方式是有一个水果工厂，我们告诉工厂需要什么种类的水果，
+水果工厂将我们需要的水果制造出来给我们就可以了。这样我们就无需知道苹果、梨子是怎么种出来的，只用和水果工厂打交道即可。
+
+工厂：
+public class FruitFactory {
+    public Fruit create(String type){
+        switch (type){
+            case "苹果": return new Apple();
+            case "梨子": return new Pear();
+            default: throw new IllegalArgumentException("暂时没有这种水果");
+        }
+    }
+}
+
+
+public class User {
+    private void eat(){
+        FruitFactory fruitFactory = new FruitFactory();
+        Fruit apple = fruitFactory.create("苹果");
+        Fruit pear = fruitFactory.create("梨子");
+        apple.eat();
+        pear.eat();
+    }
+}

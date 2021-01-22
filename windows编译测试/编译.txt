@@ -1,0 +1,14 @@
+准备：
+	gcc -c test.c --> test.o
+
+使用ar工具把test.o和main.o打包成一个静态库文件lib_test.lib，输入命令：
+	ar rv libtest.lib test.o 
+
+静态库链接成可执行文件lib_test.exe，输入命令：
+	gcc -L. test main.c -o libtest.exe
+
+把test.c编译成动态库文件dll_test.dll，输入命令：
+	gcc test.c -shared -o dll_test.dll
+
+动态库文件dll_test.dll与main.c一起编译生成可执行文件dll_test.exe，输入命令：
+	gcc dll_test.dll main.c -o dll_test.exe
