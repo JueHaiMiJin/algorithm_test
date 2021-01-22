@@ -34,11 +34,11 @@ private:
     std::vector<int> clients;
     std::vector<struct epoll_event> events;
 
-public:
+public : 
     server(/* args */);
     ~server();
     //static void *HeartBreakReceive(void *arg) = 0;
-    static void *ReceiveMsg(void *arg);
+    static void* ReceiveMsg(void* arg);
     static void *EpollRecvMsg(void *arg);
 };
 
@@ -82,20 +82,21 @@ server::server(/* args */)
     pthread_attr_destroy(&h_attr);
 }
 
+
 server::~server()
 {
     close(m_ssocket);
 }
 
-void *server::EpollRecvMsg(void *arg)
+void* server::EpollRecvMsg(void* arg)
 {
-    server *tmp = (server *)arg;
+    server* tmp = (server*)arg;
     struct sockaddr_in peeraddr;
     socklen_t peerlen;
     int count = 0;
     while (1)
     {
-        int nready = epoll_wait(tmp->epollfd, &*tmp->events.begin(), static_cast<int>(tmp->events.size()), -1);
+        int nready = epoll_wait(tmp->epollfd, &*tmp->events.begin(), static_cast<int>(tmp->events.size()), -1) ;
         if (nready == -1)
         {
             if (errno == EINTR)
@@ -103,8 +104,7 @@ void *server::EpollRecvMsg(void *arg)
             else
                 printf("epoll wailt \n");
         }
-        else if (nready == 0)
-            continue;
+        else if (nready == 0) continue;
         if ((size_t)nready == tmp->events.size())
             tmp->events.resize(tmp->events.size() * 2);
         for (int i = 0; i < nready; i++)
@@ -144,7 +144,7 @@ void *server::EpollRecvMsg(void *arg)
 
                     struct epoll_event tmp_event = tmp->events[i];
                     epoll_ctl(tmp->epollfd, EPOLL_CTL_DEL, conn, &tmp_event);
-                    vector<int>::iterator it = tmp->clients.begin();
+                    vector<int>::iterator it = tmp->clients.begin() ;
                     for (; it != tmp->clients.end(); it++)
                     {
                         if (*it == conn)
@@ -152,6 +152,7 @@ void *server::EpollRecvMsg(void *arg)
                             printf("prepare erase : %d\n", *it);
                             tmp->clients.erase(it);
                         }
+                            
                     }
                 }
                 else
@@ -165,15 +166,15 @@ void *server::EpollRecvMsg(void *arg)
 
 void *server::ReceiveMsg(void *arg)
 {
-    server *tmp = (server *)arg;
+    server* tmp = (server*)arg;
     char recvbuf[128] = {0};
     char msg[128] = {0};
-    memcpy(msg, "I have Receive Msg...", 128);
+    memcpy(msg, "I have Receive Msg...", 128); 
     while (1)
     {
-        memset(recvbuf, 0, sizeof(recvbuf));
+        memset(recvbuf, 0,sizeof(recvbuf));
         recv(tmp->m_csocket, recvbuf, sizeof(recvbuf), 0); //接收
-        if (strlen(recvbuf) > 0)
+        if(strlen(recvbuf) > 0)
         {
             printf("*** Recv : %s ****\n", recvbuf);
             send(tmp->m_csocket, msg, strlen(msg) + 1, 0);
@@ -181,13 +182,14 @@ void *server::ReceiveMsg(void *arg)
     }
 }
 
+
 int main(int argc, char const *argv[])
 {
-    server test;
+    server test; 
     while (1)
     {
         /* code */
     }
-
+    
     return 0;
 }
