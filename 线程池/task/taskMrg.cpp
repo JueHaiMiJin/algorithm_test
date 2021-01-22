@@ -18,7 +18,8 @@ task_pool::~task_pool()
 {
 }
 
-int task_pool::InitialTaskPool(int num) //线程池初始化
+//线程池初始化
+int task_pool::InitialTaskPool(int num) 
 {
     num_threads = num;
     if(num == 0)
@@ -44,7 +45,8 @@ int task_pool::InitialTaskPool(int num) //线程池初始化
     return 0;
 }
 
-task_list *task_pool::GetOneTask() //从任务队列获取一个任务
+//从任务队列获取一个任务
+task_list *task_pool::GetOneTask() 
 {
     IntelLock locker(&m_mutex);
     if(m_task_list.size() == 0)
@@ -55,19 +57,22 @@ task_list *task_pool::GetOneTask() //从任务队列获取一个任务
     return task;
 }
 
-int task_pool::AddOneTask(task_list *new_task) //添加任务到线程池的任务队列
+//添加任务到线程池的任务队列
+int task_pool::AddOneTask(task_list *new_task) 
 {
     IntelLock locker(&m_mutex);
     m_task_list.push_back(new_task);
     return 0;
 }
 
-std::list<task_list *>& task_pool::GetTaskList() //获取任务队列
+//获取任务队列
+std::list<task_list *>& task_pool::GetTaskList() 
 {
     return m_task_list;
 }
 
-task_mrg *task_pool::GetFreeThread() //获取空闲的线程
+//获取空闲的线程
+task_mrg *task_pool::GetFreeThread() 
 {
     for(int i = 0; i < num_threads; i++)
     {
@@ -78,14 +83,15 @@ task_mrg *task_pool::GetFreeThread() //获取空闲的线程
     return NULL;
 }
 
-void *task_pool::TaskMrgThread(void *arg) //管理线程
+//管理线程
+void *task_pool::TaskMrgThread(void *arg) 
 {
     while (1)
     {
         task_list *m_task_list = NULL;
         m_task_list = task_pool::GetInstance()->GetOneTask();
         if (!m_task_list)
-            Sleep(1000);
+            sleep(10);
 
         do
         {
@@ -96,12 +102,13 @@ void *task_pool::TaskMrgThread(void *arg) //管理线程
             {
                 tmp->m_task_list.push_back(m_task_list);
             }
-            Sleep(1000);
+            sleep(10);
         } while (1);
     }
 }
 
-void *task_pool::TaskProcessThread(void *arg) //工作线程
+//工作线程
+void *task_pool::TaskProcessThread(void *arg) 
 {
     while (1)
     {
