@@ -33,12 +33,13 @@ class Taskwork:public itasklist
 {
 private:
     queue<task> m_tasklist;
-public : Taskwork(/* args */);
+    pthread_mutex_t m_mutex;
+public : 
+    Taskwork(/* args */);
     ~Taskwork();
     virtual void addtask(task &m_task);
     virtual task &gettask();
-
-    static void* Inserttask(void* arg);
+    int getlistsize();
 };
 
 class process
@@ -51,7 +52,7 @@ public:
     static void* Gettask(void* arg);
 };
 
-
-
+void *Inserttask(void *arg);
+void *Gettask(void* arg);
 
 #endif
