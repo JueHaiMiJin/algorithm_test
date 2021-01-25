@@ -39,7 +39,7 @@ public :
     ~Taskwork();
     virtual void addtask(task &m_task);
     virtual task &gettask();
-    int getlistsize();
+    int 
 };
 
 class process
