@@ -97,7 +97,7 @@ void *theadinserttask(void *arg)
         tmp->value = rand() % 1900 + 1;
         tmp->next = NULL;
         m_tasklist->insertTask(tmp);
-        sleep(1);
+        //sleep(1);
     }
 }
 
@@ -115,12 +115,16 @@ int main(int argc, char const *argv[])
     tasklist *m_tasklist = new tasklist();
     pthread_t pid;
     pthread_create(&pid, NULL, theadinserttask, (void *)m_tasklist);
+    pthread_t pid4;
+    pthread_create(&pid4, NULL, theadinserttask, (void *)m_tasklist);
+    pthread_t pid4;
+    pthread_create(&pid4, NULL, theadinserttask, (void *)m_tasklist);
 
     pthread_t pid2;
     pthread_create(&pid2, NULL, theaddotask, (void *)m_tasklist);
 
-    pthread_t pid3;
-    pthread_create(&pid3, NULL, theaddotask, (void *)m_tasklist);
+    // pthread_t pid3;
+    // pthread_create(&pid3, NULL, theaddotask, (void *)m_tasklist);
 
     while (1)
     {
