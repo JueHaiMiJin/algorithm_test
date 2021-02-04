@@ -1,0 +1,75 @@
+class Solution
+{
+public:
+    int fib(int n)
+    {
+        if (n < 1)
+            return 0;
+        else if (n == 1 || n == 2)
+            return 1;
+
+        return fib(n - 1) + fib(n - 2);
+    }
+};
+
+class Solution
+{
+public:
+    int fib(int n)
+    {
+        if (n < 2)
+            return n;
+
+        int q = 0, p = 0, r = 1;
+        for (int i = 2; i <= n; i++)
+        {
+            q = p;
+            p = r;
+            r = q + p;
+        }
+        return r;
+    }
+};
+
+class Solution
+{
+public:
+    int fib(int n)
+    {
+        if (n < 2)
+            return n;
+
+        vector<vector<int>> q{{1, 1}, {1, 0}};
+        vector<vector<int>> res = matrix_pow(q, n - 1);
+        return res[0][0];
+    }
+
+    vector<vector<int>> matrix_pow(vector<vector<int>> &a, int n)
+    {
+        vector<vector<int>> ret{{1, 0}, {0, 1}};
+        while (n)
+        {
+            if (n & 1)
+            {
+                ret = Mulitp(ret, a);
+            }
+
+            n >>= 1;
+            Mulitp(ret, a);
+        }
+        return ret;
+    }
+
+    vector<vector<int>> Mulitp(vector<vector<int>> &a, vector<vector<int>> &b)
+    {
+        vector<vector<int>> c = {{0, 0}, {0, 0}};
+        for (int i = 0; i < 2; i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                c[i][j] = a[i][0] * b[0][j] + a[i][1] * b[1][j];
+            }
+        }
+        return c;
+    }
+};
