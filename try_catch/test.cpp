@@ -17,6 +17,7 @@ int CountTax(int salary)
     cout << "tax counted" << endl;
     return salary * 0.15;
 }
+
 int main()
 {
     double f = 1.2;
